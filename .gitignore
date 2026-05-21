@@ -1,0 +1,42 @@
+# dotnet
+bin/
+obj/
+out/
+*.user
+*.suo
+*.userprefs
+*.swp
+*.tmp
+*.cache
+*.bak
+
+# IDE — ignore by default but allow shared workspace config
+.vs/
+.vscode/*
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Rider / Visual Studio
+.idea/
+*.DotSettings.user
+
+# macOS
+.DS_Store
+._*
+
+# Local nuget packages
+*.nupkg
+.nuget/
+
+# Test output
+TestResults/
+coverage*.xml
+*.trx
+
+# Build artifacts
+publish/
+artifacts/
+
+# Reference repo cloned into resources/ for inspiration only — do not version it
+resources/e-Paper-reference/
