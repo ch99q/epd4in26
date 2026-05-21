@@ -38,7 +38,7 @@ flowchart LR
     Chip["SSD1677<br/>controller"]
     Panel["E-paper substrate<br/>800 × 480, 1 bpp"]
 
-    App -->|Render byte[] or Image&lt;Rgba32&gt;| Driver
+    App -->|Render frame or image| Driver
     Driver -->|pin writes / reads| Gpio
     Driver -->|byte streams| Spi
     Gpio --> Kernel
@@ -245,7 +245,7 @@ sequenceDiagram
     Driver->>Chip: 0x24 + 48 000 bytes  (frame → BW RAM)
     Driver->>Chip: 0x26 + 48 000 bytes  (frame → "previous" RAM, identical bytes)
 
-    Driver->>Chip: 0x22 0xF7            (Normal: full waveform; 0xC7 for Fast)
+    Driver->>Chip: 0x22 0xF7            (Normal full waveform, or 0xC7 in Fast mode)
     Driver->>Chip: 0x20                  (activate)
     Driver->>Chip: poll BUSY until low (~4 s)
 
@@ -486,7 +486,7 @@ T=0                                                T=180s                       
   ▼                                                  ▼                                   ▼
   ┌────┐ . . . . . . . . . . . . . . . . . . . . . ┌────┐ . . . . . . . . . . . . . . . ┌────┐
   │Full│ p₁  p₂  p₃  p₄  p₅                        │Full│ p₁  p₂  p₃                    │Full│
-  └────┘                                            └────┘                                └────┘
+  └────┘                                           └────┘                               └────┘
    4 s   ←─────  partials any time (no gate)  ────→  4 s
 
   Full refreshes gated by MinFullRefreshInterval. Partials free to fire between them, capped
