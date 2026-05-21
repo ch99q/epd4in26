@@ -1,7 +1,7 @@
 # end4in26
 
 A standalone .NET driver for the **Waveshare 4.26" e-Paper HAT** — 800 × 480, 1-bit
-black-and-white, SSD1677 controller. Single file, drop-in or NuGet-installable, with
+black-and-white, SSD1677 controller. Single file, drop into any project, with
 built-in panel protection.
 
 ```csharp
@@ -21,7 +21,7 @@ driver diverge from Waveshare's reference, see [PROTOCOL.md](PROTOCOL.md).
 
 ## Highlights
 
-- **One file, one class.** [`src/Epd4in26/Epd4in26.cs`](src/Epd4in26/Epd4in26.cs) copy-pastes into any .NET 8+ project; two NuGet refs and you're done.
+- **One file, one class.** [`src/Epd4in26/Epd4in26.cs`](src/Epd4in26/Epd4in26.cs) drops into any .NET 8+ project; two NuGet refs (`System.Device.Gpio`, `SixLabors.ImageSharp`) and you're done.
 - **Smart `Render`.** Tile-based dirty detection, automatic full-vs-partial routing, automatic promotion to a full refresh when too much changed or the ghosting budget is spent.
 - **Built-in panel protection.** Enforced 180 s minimum between full refreshes and a 5-partial ghosting budget; the cooldown clock is preserved across `Init` so callers can't bypass the limiter by reinitialising.
 - **Correct multi-region partial refreshes.** Works around the SSD1677 "SetWindow blanking" gotcha that erases previously-updated regions when later partials drive elsewhere ([details](PROTOCOL.md#the-setwindow-blanking-gotcha)).
@@ -46,19 +46,16 @@ driver diverge from Waveshare's reference, see [PROTOCOL.md](PROTOCOL.md).
 
 ## Install
 
-Either reference the NuGet package:
-
-```xml
-<PackageReference Include="Waveshare.Epd4in26" Version="0.1.0" />
-```
-
-…or copy [`src/Epd4in26/Epd4in26.cs`](src/Epd4in26/Epd4in26.cs) into your project and add
-the two upstream dependencies it needs:
+There's no published NuGet package — this is a drop-in source library. Copy
+[`src/Epd4in26/Epd4in26.cs`](src/Epd4in26/Epd4in26.cs) into your project and add the two
+upstream dependencies it needs:
 
 ```xml
 <PackageReference Include="System.Device.Gpio"   Version="3.2.0" />
 <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
 ```
+
+That's it — one source file, two NuGet refs.
 
 Targets `net8.0` and newer. The driver compiles anywhere but `GpioController` only works
 at runtime on Linux with `/dev/spidev*` and `/dev/gpiochip*` available — i.e. a Raspberry
@@ -293,13 +290,6 @@ dotnet build tests/Epd4in26.Hardware               # just the test runner (binar
 projects. The TFM is pinned in `Directory.Build.props` so changing it once updates the
 publish path in `deploy.sh` automatically.
 
-The library project is NuGet-pack-ready:
-
-```sh
-dotnet pack src/Epd4in26 -c Release
-# -> src/Epd4in26/bin/Release/Waveshare.Epd4in26.0.1.0.nupkg
-```
-
 ## Hardware test suite
 
 [`tests/Epd4in26.Hardware/`](tests/Epd4in26.Hardware/) is a console runner (binary
@@ -405,7 +395,7 @@ wired correctly.
 ```
 .
 ├── src/
-│   └── Epd4in26/                       # net8.0+ class library (NuGet-pack ready)
+│   └── Epd4in26/                       # net8.0+ class library, single-file drop-in
 │       ├── Epd4in26.csproj
 │       └── Epd4in26.cs                 # the driver (single file, drop-in)
 ├── tests/
