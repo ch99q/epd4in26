@@ -153,6 +153,20 @@ Enable SPI on the Pi if it isn't already:
 sudo raspi-config   # → Interface Options → SPI → Enable
 ```
 
+### SPI buffer size
+
+The driver pushes the entire 48,000-byte framebuffer in one SPI transfer so the
+panel sees a contiguous frame and doesn't tear across writes. Linux's default
+`spidev` buffer is 4 KiB, which is too small — `Render` will fail with a partial
+write. Raise the limit by appending `spidev.bufsiz=65536` to
+`/boot/firmware/cmdline.txt` (or `/boot/cmdline.txt` on older Pi OS) and rebooting:
+
+```sh
+sudo sed -i 's/$/ spidev.bufsiz=65536/' /boot/firmware/cmdline.txt
+sudo reboot
+cat /sys/module/spidev/parameters/bufsiz    # expected: 65536
+```
+
 ### Panel specs
 
 | Spec | Value |
@@ -397,6 +411,7 @@ entries:
 |---------|--------------|-----|
 | `TimeoutException: BUSY pin still high after 50000 ms` | Panel disconnected, `PWR` (GPIO 18) low on newer HATs, or controller hung. | Check wiring, power-cycle the panel. |
 | Garbled / scrambled pixels | SPI mode or clock wrong, ribbon cable too long, or the wrong runtime ID was published. | Confirm SPI Mode 0; lower `spiClockHz` to 2 MHz in the constructor; check `RID=linux-arm` vs `linux-arm64`. |
+| `Render` fails or panel shows a blank / partial frame | Linux `spidev.bufsiz` default of 4 KiB is smaller than the 48 KB framebuffer. | Raise the kernel buffer; see [Hardware setup → SPI buffer size](#spi-buffer-size). |
 | Earlier partial update erased when you refresh elsewhere | You're on a driver that doesn't apply the SetWindow-blanking workaround. | Update to a version that includes the `partial-two-locations` test. [Details in PROTOCOL.md.](PROTOCOL.md#the-setwindow-blanking-gotcha) |
 | Visible ghosting that doesn't clear up | More than ~5 partials between full refreshes. | Lower `maxPartialRefreshes`, or call `Clear()` more often. |
 | `dotnet publish` succeeds, but the binary crashes on the Pi | Published with the wrong runtime ID. | 32-bit Raspberry Pi OS → `RID=linux-arm`; 64-bit → `RID=linux-arm64`. |
