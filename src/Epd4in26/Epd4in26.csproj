@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Waveshare.Standalone</RootNamespace>
+    <AssemblyName>Epd4in26</AssemblyName>
+
+    <PackageId>Waveshare.Epd4in26</PackageId>
+    <Version>0.1.0</Version>
+    <Authors>Christian Hansen</Authors>
+    <Description>Standalone .NET driver for the Waveshare 4.26" e-Paper HAT (800x480, 1bpp B/W, SSD1677). Ships as a single drop-in source file with built-in full/partial refresh handling and a panel-protection limiter.</Description>
+    <PackageTags>e-paper;e-ink;waveshare;ssd1677;raspberry-pi;gpio;spi</PackageTags>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Device.Gpio" Version="3.2.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.12" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+
+</Project>
