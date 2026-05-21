@@ -1,4 +1,4 @@
-# end4in26
+# epd4in26
 
 > Single-file .NET driver for the Waveshare 4.26" e-Paper HAT.
 
@@ -28,6 +28,7 @@ change is small.
 - The [Waveshare 4.26" e-Paper HAT](https://www.waveshare.com/4.26inch-e-paper-hat.htm) — the 800 × 480 black-and-white one driven by the SSD1677 controller
 - A Raspberry Pi (or compatible SBC) with SPI enabled
 - A .NET 8 or newer project
+- You like your life
 
 **No if you want:**
 
@@ -423,7 +424,7 @@ entries:
 ├── README.md                           # you are here
 ├── deploy.sh                           # publish + rsync to a Pi
 ├── Directory.Build.props               # shared csproj settings
-├── end4in26.slnx                       # solution file
+├── epd4in26.slnx                       # solution file
 ├── .vscode/tasks.json                  # build / deploy / test shortcuts
 ├── resources/datasheets/               # panel + SSD1677 controller PDFs
 ├── LICENSE                             # MIT

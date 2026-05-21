@@ -14,7 +14,7 @@
 # Configure via env vars (defaults shown):
 #   PI_HOST=raspberrypi.local
 #   PI_USER=pi
-#   PI_DEST=end4in26               # path on the Pi (relative to $HOME)
+#   PI_DEST=epd4in26               # path on the Pi (relative to $HOME)
 #   RID=linux-arm64                # use linux-arm for 32-bit Raspberry Pi OS
 #   EPD_TEST_INTERVAL=180          # forwarded to the Pi; lower at your own risk
 #   NO_COLOR=1                     # suppress ANSI color output
@@ -23,7 +23,7 @@ set -euo pipefail
 
 PI_HOST="${PI_HOST:-raspberrypi.local}"
 PI_USER="${PI_USER:-pi}"
-PI_DEST="${PI_DEST:-end4in26}"
+PI_DEST="${PI_DEST:-epd4in26}"
 RID="${RID:-linux-arm64}"
 PROJECT="tests/Epd4in26.Hardware"
 ASSEMBLY="EpdTest"
