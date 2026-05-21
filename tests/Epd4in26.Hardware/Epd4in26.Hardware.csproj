@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>EpdTest.Hardware</RootNamespace>
+    <AssemblyName>EpdTest</AssemblyName>
+    <IsPackable>false</IsPackable>
+    <RuntimeIdentifiers>linux-arm64;linux-arm</RuntimeIdentifiers>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Epd4in26\Epd4in26.csproj" />
+    <PackageReference Include="SixLabors.Fonts" Version="2.1.3" />
+    <PackageReference Include="SixLabors.ImageSharp.Drawing" Version="2.1.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="resources\fonts\*.ttf" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="resources\fonts\LICENSE-Inter.txt" CopyToOutputDirectory="PreserveNewest" />
+    <Content Include="resources\patterns\*.png" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+</Project>
