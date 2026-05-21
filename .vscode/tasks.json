@@ -1,0 +1,85 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "type": "shell",
+            "command": "dotnet build tests/Epd4in26.Hardware",
+            "problemMatcher": "$msCompile",
+            "group": { "kind": "build", "isDefault": true },
+            "presentation": { "clear": true, "panel": "shared" }
+        },
+        {
+            "label": "deploy",
+            "type": "shell",
+            "command": "./deploy.sh",
+            "problemMatcher": [],
+            "group": "build",
+            "presentation": { "clear": true, "panel": "shared" }
+        },
+        {
+            "label": "deploy + run all tests (visual prompts)",
+            "type": "shell",
+            "command": "./deploy.sh run",
+            "problemMatcher": [],
+            "presentation": { "clear": true, "panel": "shared", "reveal": "always" }
+        },
+        {
+            "label": "deploy + run all tests (--no-prompt)",
+            "type": "shell",
+            "command": "./deploy.sh run --no-prompt all",
+            "problemMatcher": [],
+            "presentation": { "clear": true, "panel": "shared", "reveal": "always" }
+        },
+        {
+            "label": "deploy + run test",
+            "type": "shell",
+            "command": "./deploy.sh run ${input:testName}",
+            "problemMatcher": [],
+            "group": { "kind": "test", "isDefault": true },
+            "presentation": { "clear": true, "panel": "shared", "reveal": "always" }
+        },
+        {
+            "label": "deploy + render image",
+            "type": "shell",
+            "command": "./deploy.sh run image ${input:imagePath}",
+            "problemMatcher": [],
+            "presentation": { "clear": true, "panel": "shared", "reveal": "always" }
+        },
+        {
+            "label": "regenerate test PNGs (local)",
+            "type": "shell",
+            "command": "dotnet run --project tests/Epd4in26.Hardware -- generate",
+            "problemMatcher": "$msCompile",
+            "presentation": { "clear": true, "panel": "shared", "reveal": "always" }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "testName",
+            "type": "pickString",
+            "description": "Which test to run on the Pi",
+            "default": "baseline",
+            "options": [
+                "all",
+                "list",
+                "clear",
+                "baseline",
+                "noop",
+                "partial-single",
+                "partial-bbox",
+                "partial-two-locations",
+                "ghost-budget",
+                "auto-promote",
+                "promote-large",
+                "sleep-wake"
+            ]
+        },
+        {
+            "id": "imagePath",
+            "type": "promptString",
+            "description": "Path to an 800x480 image (relative to the Pi's deploy dir, or absolute)",
+            "default": "./pic.png"
+        }
+    ]
+}
