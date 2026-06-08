@@ -418,67 +418,6 @@ entries:
 | Image looks inverted (black / white swapped) | Threshold or bit-packing inverted somewhere in your pipeline. | `PackFromFile` / `PackFromImage` produce the correct polarity by default (bit 1 = white). |
 | `Render` returned `Partial` when you expected `Full` | The 180 s safety floor was still active; the driver fell back to a partial instead of blocking the UI thread. | Wait `epd.TimeUntilNextFullRefreshAllowed` and retry. |
 
-## Project layout
-
-```
-.
-├── src/
-│   └── Epd4in26/                       # the driver, single-file class library
-│       ├── Epd4in26.csproj
-│       └── Epd4in26.cs                 # the file you drop into your project
-├── tests/
-│   └── Epd4in26.Hardware/              # console test runner (binary: EpdTest)
-│       ├── Program.cs                  # CLI
-│       ├── Tests.cs                    # test catalogue + visual checklists
-│       ├── PatternGenerator.cs         # ImageSharp + SixLabors.Fonts PNG generator
-│       ├── VISUAL.md                   # human follow-along; one section per test
-│       └── resources/
-│           ├── fonts/                  # Inter-{Bold,Regular}.ttf (SIL OFL 1.1)
-│           └── patterns/               # committed 1bpp test PNGs
-├── PROTOCOL.md                         # wire-level protocol reference, RAM model
-├── README.md                           # you are here
-├── deploy.sh                           # publish + rsync to a Pi
-├── Directory.Build.props               # shared csproj settings
-├── epd4in26.slnx                       # solution file
-├── .vscode/tasks.json                  # build / deploy / test shortcuts
-├── resources/datasheets/               # panel + SSD1677 controller PDFs
-├── LICENSE                             # MIT
-└── CLAUDE.md                           # notes for AI assistants working on this repo
-```
-
-## Contributing
-
-### Before changing display code
-
-Read [PROTOCOL.md](PROTOCOL.md) and the [Panel safety](#panel-safety) rules above.
-Back-to-back full refreshes have already destroyed one panel on this project. If
-your change touches the partial-refresh path, run the
-[`partial-two-locations`](tests/Epd4in26.Hardware/VISUAL.md) test — it catches the
-"earlier partial gets erased" regression.
-
-### Commit messages
-
-This repo uses [Conventional Commits](https://www.conventionalcommits.org/):
-
-```
-<type>[optional scope]: <description>
-
-[optional body]
-```
-
-`<type>` is one of `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
-Examples:
-
-```
-feat(driver): support fast-mode partial updates
-fix(driver): apply SetWindow-blanking workaround in DisplayPartial
-docs(protocol): clarify the 0x24 vs 0x26 RAM model
-refactor(tests): extract pattern generator into its own file
-```
-
-**Please don't co-author commits with AI assistants** — it muddles attribution and
-isn't an accurate reflection of who contributed.
-
 ## License
 
 MIT — see [LICENSE](LICENSE). Mirrors and improves upon the Waveshare reference at
